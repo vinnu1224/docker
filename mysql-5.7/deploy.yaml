@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-5-7 
+  labels:
+    name: mysql-5-7
+spec:
+  selector:
+    matchLabels:
+      run: mysql-5-7
+  template:
+    metadata:
+      labels:
+        run: mysql-5-7
+    spec:
+      containers:
+        - name: mysql-5-7
+          image: 192.168.0.162:96/appz/mysql:5.7 
+          ports:
+            - name: mysql
+              containerPort: 3306
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "HelloWorld!02"
+          volumeMounts:
+            - name: mysql-5-7-vol 
+              mountPath: /var/lib/mysql 
+      volumes:
+        - name: mysql-5-7-vol
+          persistentVolumeClaim:
+            claimName: mysql-pvc
